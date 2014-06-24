@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='normalize.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+        <script src="{{ url_for('static', filename='modernizr-2.6.2-respond-1.1.0.min.js') }}"></script>
+    </head>
+    <body>
+
+        <div class="header-container">
+            <header class="wrapper clearfix">
+                <center> <h1 class="title">Buscar</h1> </center>
+                <nav>
+                    <ul>
+                        <li><a href="{{url_for('home2')}}">Home</a></li>
+                        <li><a href="{{url_for('ingresar')}}">Ingresar un Aparta</a></li>
+                        <li><a href="{{url_for('favoritos')}}">Favoritos</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+                <article>
+                    <section>
+                        <div class="content style4 featured">
+							<div class="container small">
+							<form method="post" action="{{url_for('mostrarTodos')}}"> 
+							<input type="submit" value="Mostrar Todos los Apartas">
+						</form>
+						<form method="post" action="{{url_for('preguntarAparta')}}"> 
+							<input type="submit" value="Ver detalles de un Aparta">
+						</form>
+							<form method="post" action="{{ url_for('buscarAparta') }}">
+								
+					 <p><b><label> Facilidades: </label></b></p>
+						<p><input type="checkbox" name="cochera" value="cochera">Cochera<br>
+						<input type="checkbox" name="luz" value="luz">Luz<br>
+						<input type="checkbox" name="agua" value="agua">Agua Caliente<br>
+						<input type="checkbox" name="internet" value="internet">Internet<br>
+						<input type="checkbox" name="alimentacion" value="alimentacion">Alimentacion<br>
+						<input type="checkbox" name="amueblado" value="amueblado">Amueblado<br>
+						<input type="checkbox" name="cable" value="cable">TV Cable</p>
+						<p><b><label> Numero de Cuartos: </label></b>
+						<select name="selection2">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option></select></p>
+					 <p><b><label> Precio Minimo: </label> </b><input type="text" name="PrecioMinimo" required></p>
+					 <p><b><label> Precio Maximo: </label> </b><input type="text" name="PrecioMaximo" required></p>
+					 <p><b><label> Ordenamiento: </label></b></p>
+					 <input type="radio" name="ordenamiento" value="1">Por Precio<br>
+					 <input type="radio" name="ordenamiento" value="2">Por Cercania al TEC
+					 		<p><button type="submit">Buscar</button></p>
+					</form>
+							</div>
+						</div>
+                    </section>
+                </article>
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery-1.11.0.min.js') }}"><\/script>')</script>
+
+        <script src="{{ url_for('static', filename='main.js') }}"></script>
+    </body>
+</html>

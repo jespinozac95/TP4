@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='normalize.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+        <script src="{{ url_for('static', filename='modernizr-2.6.2-respond-1.1.0.min.js') }}"></script>
+<style type="text/css">
+  html { height: 500px }  
+  body { height: 500px; margin: 0px; padding: 0px } 
+  #map_canvas { height: 300px; width: 200px }  
+</style>  
+<script type="text/javascript"  
+    src="http://maps.google.com/maps/api/js?sensor=false">  
+</script>  
+<script type="text/javascript">  
+ var map;
+function initialize() {
+  var myLatlng = new google.maps.LatLng(9.8539039,-83.9095341);
+  var mapOptions = {
+    zoom: 16,
+    center: myLatlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      draggable:true,
+      title:"Posicione su aparta"
+  });
+    var infowindow = new google.maps.InfoWindow({
+    content: 'Posicione su Aparta'
+  });
+  infowindow.open(map,marker);
+  
+  google.maps.event.addListener(marker, 'drag', function (event) {
+    document.getElementById("latbox").value = event.latLng.lat();
+    document.getElementById("lngbox").value = event.latLng.lng();
+});
+}
+</script> 
+    </head>
+    <body onload="initialize()">
+
+        <div class="header-container">
+            <header class="wrapper clearfix">
+                <center> <h1 class="title">Ingresar un Aparta</h1> </center>
+                <nav>
+                    <ul>
+                        <li><a href="{{url_for('home2')}}">Home</a></li>
+                        <li><a href="{{url_for('buscar')}}">Buscar Apartas</a></li>
+                        <li><a href="{{url_for('favoritos')}}">Favoritos</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+                <article>
+					<header>
+                        <center> 
+							<h1>Ingresar un Aparta</h1>
+						</center>
+                    </header>
+                    
+                    <section>
+                        <div class="content style4 featured">
+				<div class="container small">
+
+					<form method="post" action="{{ url_for('newAparta') }}">
+<fieldset>
+<legend>Nuevo Aparta:</legend>
+					 <p><b><label> Titulo: </label></b> <input type="text" name="Titulo" required> </p>
+					 <p><b><label> Descripcion: </label></b> <textarea name="Descripcion" rows="10" cols="30" required>
+									</textarea></p>
+					 <p><b><label> Tipo: </label></b>
+						<select name="selection">
+							<option value="Apartamento">Apartamento</option>
+							<option value="Casa">Casa</option>
+							<option value="Habitacion">Habitacion</option></select></p>
+					 <p><b><label> Facilidades: </label></b></p>
+						<p><input type="checkbox" name="cochera" value="cochera">Cochera<br>
+						<input type="checkbox" name="luz" value="luz">Luz<br>
+						<input type="checkbox" name="agua" value="agua">Agua Caliente<br>
+						<input type="checkbox" name="internet" value="internet">Internet<br>
+						<input type="checkbox" name="alimentacion" value="alimentacion">Alimentacion<br>
+						<input type="checkbox" name="amueblado" value="amueblado">Amueblado<br>
+						<input type="checkbox" name="cable" value="cable">TV Cable</p>
+					 <p><b><label> Numero de Cuartos: </label></b>
+						<select name="selection2">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option></select></p>
+					 <p><b><label> Precio: </label> </b><input type="text" name="Precio" required></p>
+					 
+					 
+</fieldset>
+          <div id="latlong">
+	    <p>Latitud: <input size="20" type="text" id="latbox" name="lat" required readonly></p>
+	    <p>Longitud: <input size="20" type="text" id="lngbox" name="lng" required readonly></p>
+	  </div>
+	  <p><button type="submit">Agregar</button></p>
+					</form>
+
+					</div>
+				</div>
+                    </section>
+                </article>
+
+            </div>
+        </div> 
+        <div id="map_canvas" style="width:60%; height:60%"></div>
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery-1.11.0.min.js') }}"><\/script>')</script>
+
+        <script src="{{ url_for('static', filename='main.js') }}"></script>
+    </body>
+</html>
