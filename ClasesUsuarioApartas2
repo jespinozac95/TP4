@@ -1,0 +1,228 @@
+import mechanize #Para descargarlo: https://pypi.python.org/pypi/mechanize/
+
+
+## Clase Apartamento 
+class Apartamento:
+    apartas=[]
+    archi=open('Apartas.txt','a+')
+    archi.close()
+    def __init__(self):
+        pass
+    def grabar(self,hecho):
+        archi=open('Apartas.txt','a')
+        archi.write(hecho+"\n")
+        archi.close()
+    def leertxt(self):
+        apartas=Apartamentos.apartas
+        archi=open('Apartas.txt','r')
+        linea=archi.readline()
+        print(linea)
+        while linea!="":
+            apartas.append(linea)
+            linea=archi.readline()
+        archi.close()
+
+    def publicarAparta(self,titulo,descripcion,TV,luz,agua,internet,num_cuartos,cochera,alimentacion,amueblado,ubicacion,precio,correo,telefono):
+        self.titulo=titulo
+        self.descripcion=descripcion
+        self.TV=TV
+        self.luz=luz
+        self.agua=agua
+        self.internet=internet
+        self.num_cuartos=num_cuartos
+        self.cochera=cochera
+        self.ubicacion=ubicacion
+        self.precio=precio
+        self.correo=correo
+        self.telefono=telefono
+        self.alimentacion=alimentacion
+        self.amueblado=amueblado
+        apartas=Apartamentos.apartas
+        paraGrabar=''
+        if telefono.isdigit() and precio.isdigit():
+            paraGrabar=self.titulo+';'+self.descripcion+';'+str(self.TV)+';'+str(self.luz)+';'+str(self.agua)+';'+str(self.internet)+';'+str(self.num_cuartos)+';'+str(self.cochera)+';'+str(self.alimentacion)+';'+str(self.amueblado)+';'+str(self.ubicacion)+';'+str(self.precio)+';'+str(self.correo)+';'+str(self.telefono)
+            grabar(paraGrabar)
+            paraGrabar=paraGrabar.split(';')
+            apartas.append(paraGrabar)
+                        
+        else:
+            return "Error: Datos invalidos."
+
+    ##Las posiciones para esta funcion son: TV,luz,agua,internet,num_cuartos,cochera,ubicacion,precio
+    def consultarAparta(self,TV,luz,agua,internet,num_cuartos,cochera,alimentacion,amueblado,precio_min,precio_max):
+        self.TV=TV
+        self.luz=luz
+        self.agua=agua
+        self.internet=internet
+        self.num_cuartos=num_cuartos
+        self.cochera=cochera
+        self.precio_min=precio_min
+        self.precio_max=precio_max
+        self.alimentacion=alimentacion
+        self.amueblado=amueblado
+        apartas=Apartamento.apartas 
+        listaActual=[TV,luz,agua,internet,cochera,alimentacion,amueblado,num_cuartos,precio_min,precio_max]
+        cont=0
+        while cont<len(apartas):
+            for each in apartas:
+                print (listaActual[0],each[2])
+                print(listaActual[1],each[3])
+                print(listaActual[2],each[4])
+                print(listaActual[3],each[5])
+                print(listaActual[4],each[7])
+                if ((listaActual[0]=="True" and each[2]=="True") or (listaActual[0]=="False")) and ((listaActual[1]=="True" and each[3]=="True") or (listaActual[1]=="False")) and ((listaActual[2]=="True" and each[4]=="True") or (listaActual[2]=="False")) and ((listaActual[3]=="True" and each[5]=="True") or (listaActual[3]=="False")) and ((listaActual[4]=="True" and each[7]=="True") or (listaActual[4]=="False")) and ((listaActual[5]=="True" and each[8]=="True")or(listaActual[5]=="False")) and ((listaActual[6]=="True" and each[9]=="True") or (listaActual[6]=="True"))and(listaActual[7]==each[6])and(each[8]<=listaActual[11]<=each[9]):
+                     return each
+                     cont+=1
+                else:
+                     cont+=1
+
+                        
+    
+
+#Usuario
+class Usuario:
+    ListaUsuarios=[]
+    archi=open('Usuarios.txt','a+')
+    ##archi.write("Hola, no sirvio\n")
+    archi.close()
+
+    def __init__(self):
+        pass
+
+    def grabar(self,hecho):
+        
+        archi=open('Usuarios.txt','a')
+        archi.write(hecho+"\n")
+        archi.close()
+
+    
+    def leertxt(self):
+        ListaUsuarios=Usuario.ListaUsuarios
+        archi=open('Usuarios.txt','r')
+        linea=archi.readline()
+        print(linea)
+        while linea!="":
+            ListaUsuario.append(linea)
+            linea=archi.readline()
+        archi.close()
+
+
+
+
+    #F: Permite ingresar un  nuevo usuario, verifica el ingreso con Facebook     
+    def NuevoUsuario(self,nombre,correo,contrasena,telefono):
+        self.nombre=nombre
+        self.correo=correo
+        self.contrasena=contrasena
+        self.telefono=telefono
+        #self.favoritos=favoritos
+        ListaUsuarios=Usuario.ListaUsuarios
+        paraGrabar=''
+        x=Usuario()
+        if x.LoginFacebook(self.correo,self.contrasena) and (x.VerificarRegistrado(self.correo)==False):
+              paraGrabar=self.nombre+';'+self.correo+';'+str(self.telefono)+';'+str([])
+              print("Nuevo Usuario TXT: "+paraGrabar)
+              x.grabar(paraGrabar)
+              paraGrabar=paraGrabar.split(';')
+              paraGrabar[3]=eval(paraGrabar[3])
+              ListaUsuarios.append(paraGrabar)
+        else:
+             return "Debe estar registrado en Facebook o su cuenta ha sido creada anteriormente"
+             
+#Realiza el Login en Facebook
+    def LoginFacebook (self,email1,contrasena1):
+         self.email1=email1
+         self.contrasena1=contrasena1
+
+         url="https://www.facebook.com" #Direccion Url a la que se va a ingresar
+         fb=mechanize.Browser() 
+         fb.set_handle_robots(False) # Se indica que no es un robot
+         fb.addheaders=[('User-Agent','Firefox')]
+         fb.open(url) #abre la direccion indicada en el url
+
+         #Descomentar para ver el codigo del form
+         #for i in fb.forms():
+         #     print i
+         #https://www.facebook.com/login.php?login_attempt=1
+
+         #<TextControl(email=)>
+         #<PasswordControl(pass=)>
+
+         email =self.email1 #Usuario: Correo electronico o numero de telefono
+         contrasena =self.contrasena1 #Contrasena
+
+         fb.select_form(nr=0)
+         fb.form["email"]=email
+         fb.form["pass"]=contrasena
+
+         prueba=fb.submit()
+
+         #Descomentar para ver el url que devuelve.
+         #print(prueba.geturl())
+         if prueba.geturl()!="https://www.facebook.com/login.php?login_attempt=1":
+              print ("")
+              print ("Facebook login realizado con exito ! \n Usuario:"+email+"\n"+"Contrasena: "+contrasena+"\n")
+              return True 
+         else:
+              print ("Datos incorrectos: revise el correo o la contrasena.")
+              return False
+
+    
+
+
+    #Verifica si el usuario puede ingresar a la aplicacion, suponiendo que este usuario ya se encontraba registrado.      
+    def ingreso(self,email,contrasena):
+         self.email=email
+         self.contrasena=contrasena
+         x=Usuario()
+         if x.LoginFacebook(self.email,self.contrasena) and x.VerificarRegistrado(self.email):
+              print ("Bienvenido, ha ingresado correctamente!")
+              return True
+         else:
+              return False
+              
+    #Verifica si el usuario esta registrado en la aplicacion
+    def VerificarRegistrado(self,correo):
+         self.correo=correo
+         ListaUsuarios=Usuario.ListaUsuarios
+         cont=0
+         while cont<len(ListaUsuarios):
+              for i in ListaUsuarios:
+                   if i[1]==self.correo:
+                        return True
+                   else:
+                        cont+=1
+         return False        
+
+    ##Funcion que recibe el correo del usuario actual (ya que es unico) y el numero identificador del apartamento que desea marcar
+    def Favoritos(self,correo,ide): 
+        self.ide=ide
+        self.correo=correo
+        ListaUsuarios=Usuario.ListaUsuarios
+        cont=0
+        while cont<len(ListaUsuarios):
+            if self.correo==ListaUsuarios[cont][1]:
+                if ide not in ListaUsuarios[cont][3]:
+                    ListaUsuarios[cont][3].append(ide)
+                else:
+                    print("Este apartamento ya habia sido marcado como favorito.")
+            else:
+                cont+=1
+    def ImprimirUsuarios():
+         ListaUsuarios=Usuario.ListaUsuarios
+         for i in ListaUsuarios:
+              print (i)
+         
+
+prueba= Usuario()
+prueba.NuevoUsuario("mgamboa","mauricio.11.gamboa@gmail.com","bombur123",83097037)
+prueba.NuevoUsuario("apacheco","andresp11_95@hotmail.com","pequeo",89267057)
+prueba.NuevoUsuario("jespinoza","chimy_josue@hotmail.com","caca",89267087)
+
+
+
+
+
+
+
+

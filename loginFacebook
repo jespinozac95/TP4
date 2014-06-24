@@ -1,0 +1,46 @@
+import mechanize
+
+url="https://www.facebook.com"
+
+op=mechanize.Browser()
+op.set_handle_robots(False)
+op.addheaders=[('User-Agent','Firefox')]
+
+op.open(url)
+#for i in op.forms():
+#     print i
+#https://www.facebook.com/login.php?login_attempt=1
+#<TextControl(email=)>
+#<PasswordControl(pass=)>
+
+
+email = raw_input("Username or email: ") # Usuario
+password = raw_input("Password: ") #Contrasena
+
+op.select_form(nr=0)
+
+op.form["email"]=email
+op.form["pass"]=password
+
+response=op.submit()
+
+print(response.geturl())
+
+##if op.title()!="Facebook":
+##     print ("Datos incorrectos")
+##     sys.exit()
+##
+##else:
+##     print ("")
+##     print ("Facebook login realizado con exito ! \n Usuario:"+email+"\n"+"\tContrasena: "+password+"\n")
+
+
+
+
+if response.geturl()!="https://www.facebook.com/login.php?login_attempt=1":
+     print ("")
+     print ("Facebook login realizado con exito ! \n Usuario:"+email+"\n"+"\tContrasena: "+password+"\n")
+else:
+     print ("Datos incorrectos")
+
+     
